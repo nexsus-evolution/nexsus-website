@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEXSUS - Evolution Future</title>
+<style>
+/* 
+===========================================
+⚠️ ATTENZIONE SVILUPPATORI ⚠️
+===========================================
+QUESTO SITO E LE SUE FUNZIONI NON DEVONO MAI ESSERE MODIFICATE:
+- Logo X + NEXSUS (dimensioni, colori, animazioni)
+- Colori dei gradienti
+- Dimensioni delle scritte
+- Posizioni degli elementi
+- Effetti onda e HOLA sui colori
+- Animazione Matrix verde lime e ciano
+- Menu hamburger, pulsante Alison, icona AI
+- Sezioni ottimizzate e effetti 3D
+- Sistemi funzionali (pagamenti, form, chatbot)
+ATTENERSI SEMPRE AI COMANDI RICEVUTI
+NON INVENTARE NULLA DI PROPRIO
+===========================================
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+    padding-bottom: 100px;
+}
+
+:root {
+    --grad: linear-gradient(
+        90deg,
+        #2aff40 0%,
+        #ffd21a 20%,
+        #00c8ff 40%,
+        #0070ff 55%,
+        #9c27ff 70%,
+        #ff7b00 85%,
+        #f9ff00 100%
+    );
+    --gold-border: linear-gradient(45deg, #8B4513, #DAA520, #B8860B, #8B4513);
+}
+
+#matrixCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: #000;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    margin-bottom: 100px;
+    padding: 20px;
+}
+
+.main-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 30px;
+}
+
+.logo-x {
+    font-size: clamp(380px, 15vw, 570px);
+    font-weight: 900;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-right: -20px;
+    animation: waveColors 6s ease-in-out infinite;
+}
+
+.logo-nexsus {
+    display: flex;
+    margin-left: -20px;
+}
+
+.logo-nexsus .letter {
+    font-size: clamp(190px, 8vw, 247px);
+    font-weight: 900;
+    background: linear-gradient(45deg, #2aff40 0%, #00c8ff 25%, #0070ff 50%, #9c27ff 75%, #ff7b00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: waveColors 6s ease-in-out infinite, hola 1.5s ease-in-out infinite;
+}
+
+.subtitle {
+    font-size: clamp(32px, 3vw, 46px);
+    font-weight: 700;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 40px;
+    animation: waveColors 6s ease-in-out infinite;
+}
+
+.evolution-future {
+    font-size: clamp(76px, 6vw, 152px);
+    font-weight: 900;
+    background: linear-gradient(45deg, #2aff40 0%, #00c8ff 30%, #9c27ff 60%, #ff7b00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 30px;
+    animation: waveColors 6s ease-in-out infinite;
+}
+
+.community-subtitle {
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 600;
+    background: linear-gradient(90deg, #00c8ff 0%, #2aff40 25%, #9c27ff 50%, #ffd21a 75%, #ff7b00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: waveColors 6s ease-in-out infinite;
+}
+
+@keyframes waveColors {
+    0% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(180deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes hola {
+    0% { filter: hue-rotate(0deg) brightness(0.85); }
+    50% { filter: hue-rotate(0deg) brightness(1.1); }
+    100% { filter: hue-rotate(0deg) brightness(0.85); }
+}
+
+.hamburger-menu {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    z-index: 1000;
+}
+
+.hamburger-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #2aff40;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.hamburger-x {
+    position: absolute;
+    font-size: 40px;
+    font-weight: bold;
+    color: #2aff40;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.hamburger-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 2;
+}
+
+.hamburger-lines span {
+    width: 25px;
+    height: 3px;
+    background: #2aff40;
+    transition: all 0.3s ease;
+}
+
+.menu-dropdown {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #2aff40;
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+    color: #fff;
+}
+
+.menu-dropdown.active {
+    display: block;
+}
+
+.menu-item {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(42, 255, 64, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    text-shadow: 
+        0 0 10px rgba(0,0,0,0.7),
+        0 0 20px rgba(0,0,0,0.5),
+        0 0 30px rgba(0,0,0,0.3),
+        1px 1px 0px #2aff40,
+        2px 2px 0px #00c8ff,
+        3px 3px 0px #0070ff,
+        4px 4px 0px #9c27ff,
+        5px 5px 0px #ff7b00,
+        6px 6px 0px rgba(42, 255, 64, 0.6),
+        7px 7px 0px rgba(0, 200, 255, 0.5),
+        8px 8px 0px rgba(0, 112, 255, 0.4),
+        9px 9px 0px rgba(156, 39, 255, 0.3),
+        10px 10px 0px rgba(255, 123, 0, 0.2),
+        12px 12px 15px rgba(0,0,0,0.8),
+        14px 14px 20px rgba(0,0,0,0.6),
+        16px 16px 25px rgba(0,0,0,0.4);
+    letter-spacing: 1px;
+    transform: perspective(500px) rotateX(10deg);
+}
+
+.menu-item:hover {
+    color: #2aff40;
+    padding-left: 10px;
+    text-shadow: 
+        0 0 15px rgba(42, 255, 64, 0.8),
+        0 0 30px rgba(42, 255, 64, 0.6),
+        0 0 45px rgba(42, 255, 64, 0.4),
+        2px 2px 0px #2aff40,
+        4px 4px 0px #00c8ff,
+        6px 6px 0px #0070ff,
+        8px 8px 0px #9c27ff,
+        10px 10px 0px #ff7b00,
+        12px 12px 0px #ffd21a,
+        14px 14px 0px rgba(42, 255, 64, 0.8),
+        16px 16px 0px rgba(0, 200, 255, 0.7),
+        18px 18px 0px rgba(0, 112, 255, 0.6),
+        20px 20px 0px rgba(156, 39, 255, 0.5),
+        22px 22px 0px rgba(255, 123, 0, 0.4),
+        24px 24px 20px rgba(0,0,0,0.9),
+        26px 26px 30px rgba(0,0,0,0.7),
+        28px 28px 40px rgba(0,0,0,0.5);
+    transform: perspective(500px) rotateX(15deg) scale(1.05);
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.alison-button {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 1000;
+    background: var(--grad);
+    color: #000;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 900;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ai-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    width: 80px;
+    height: 80px;
+    background: #2aff40;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 20px rgba(42, 255, 64, 0.5);
+    cursor: pointer;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.talk-record-section {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 25px 30px;
+    border-radius: 30px;
+    background: linear-gradient(45deg, rgba(42, 255, 64, 0.15), rgba(0, 200, 255, 0.15));
+    border: 3px solid;
+    border-image: var(--gold-border) 1;
+    text-align: center;
+    position: relative;
+    min-height: 350px;
+    box-shadow: 
+        0 10px 30px rgba(0,0,0,0.3),
+        0 0 20px rgba(42, 255, 64, 0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px 25px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, rgba(42, 255, 64, 0.12), rgba(0, 200, 255, 0.12));
+    border: 2px solid;
+    border-image: var(--gold-border) 1;
+    text-align: center;
+    position: relative;
+    min-height: 400px;
+    visibility: visible;
+    opacity: 1;
+    box-shadow: 
+        0 8px 25px rgba(0,0,0,0.25),
+        0 0 15px rgba(42, 255, 64, 0.15),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.section:hover, .talk-record-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 15px 35px rgba(0,0,0,0.3),
+        0 0 25px rgba(42, 255, 64, 0.25),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.section-title {
+    font-size: clamp(30px, 5vw, 60px);
+    font-weight: 900;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 40px;
+    animation: waveColors 6s infinite linear, hola 1.5s infinite ease-in-out;
+    text-shadow: 
+        0 0 20px rgba(0,0,0,0.8),
+        0 0 40px rgba(0,0,0,0.6),
+        0 0 60px rgba(0,0,0,0.4),
+        2px 2px 0px #2aff40,
+        4px 4px 0px #00c8ff,
+        6px 6px 0px #0070ff,
+        8px 8px 0px #9c27ff,
+        10px 10px 0px #ff7b00,
+        12px 12px 0px #ffd21a,
+        14px 14px 0px rgba(42, 255, 64, 0.8),
+        16px 16px 0px rgba(0, 200, 255, 0.7),
+        18px 18px 0px rgba(0, 112, 255, 0.6),
+        20px 20px 0px rgba(156, 39, 255, 0.5),
+        22px 22px 0px rgba(255, 123, 0, 0.4),
+        24px 24px 0px rgba(255, 210, 26, 0.3),
+        26px 26px 30px rgba(0,0,0,0.9),
+        28px 28px 40px rgba(0,0,0,0.7),
+        30px 30px 50px rgba(0,0,0,0.5);
+    letter-spacing: 3px;
+    transform: perspective(1000px) rotateX(15deg);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.chatbot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.chatbot-container {
+    background: #000;
+    border: 2px solid #2aff40;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.chatbot-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chatbot-header h3 {
+    color: #2aff40;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #2aff40;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: rgba(42, 255, 64, 0.05);
+    border-radius: 10px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #2aff40;
+    border-radius: 5px;
+    background: rgba(42, 255, 64, 0.1);
+    color: #fff;
+}
+
+.chat-input button {
+    padding: 10px 20px;
+    background: var(--grad);
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-chatbot {
+    background: #ff4444;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .hamburger-menu {
+        top: 20px;
+        left: 20px;
+    }
+    
+    .hamburger-icon {
+        width: 50px;
+        height: 50px;
+        padding: 12px;
+    }
+    
+    .alison-button {
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    
+    .ai-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 25px;
+    }
+    
+    .menu-dropdown {
+        width: 300px;
+    }
+    
+    .talk-record-section {
+        margin: 20px 15px 30px 15px;
+        padding: 20px 15px;
+        min-height: 280px;
+        border-radius: 20px;
+    }
+    
+    .section {
+        margin: 20px 15px 40px 15px;
+        padding: 25px 15px;
+        min-height: 320px;
+        border-radius: 20px;
+    }
+    
+    .logo-container {
+        min-height: 60vh;
+        margin-bottom: 60px;
+        padding: 15px;
+    }
+    
+    body {
+        padding-bottom: 150px;
+    }
+}
+    </style>
+</head>
+<body>
+<canvas id="matrixCanvas"></canvas>
+<!-- Menu Hamburger -->
+<div class="hamburger-menu" id="hamburgerMenu">
+<div class="hamburger-icon" onclick="toggleMenu()">
+<div class="hamburger-x">X</div>
+<div class="hamburger-lines">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+<div class="menu-dropdown" id="menuDropdown">
+<div class="menu-item" onclick="showSection('home')">🏠 Home</div>
+<div class="menu-item" onclick="showSection('talk-record')">📺 Talk Record NEXSUS</div>
+<div class="menu-item" onclick="showSection('contatti-social')">📞 CONTATTI E SOCIAL network e manager e nexsus</div>
+<div class="menu-item" onclick="showSection('librerie')">📚 Librerie NEXSUS</div>
+<div class="menu-item" onclick="showSection('alison-ai')">🤖 Assistente ALISON AI</div>
+<div class="menu-item" onclick="showSection('community')">👥 Community NEXSUS</div>
+<div class="menu-item" onclick="showSection('academy')">🎓 Academy NEXSUS</div>
+<div class="menu-item" onclick="showSection('coaching')">💼 Coaching NEXSUS</div>
+<div class="menu-item" onclick="showSection('networking')">🌐 Networking NEXSUS</div>
+<div class="menu-item" onclick="showSection('collabora-alison')">🤖 COLLABORA CON NEXSUS</div>
+<div class="menu-item" onclick="showSection('feedback')">💬 NEXSUS FEEDBACK e NEW LETTER</div>
+<div class="menu-item" onclick="showSection('vinci-premiati')">🏆 NEXSUS VINCI &amp;PREMIATI</div>
+<div class="menu-item" onclick="showSection('app')">📱 APP NEXSUS</div>
+<div class="menu-item" onclick="showSection('abbonamenti')">💳 Projects ABBONAMENTI E PAGAMENTI</div>
+<div class="menu-item" onclick="showSection('sezioni-territoriali')">🌍 Sezioni Territoriali</div>
+<div class="menu-item" onclick="showSection('admin-panel')">⚙️ PANEL ADMIN NEXSUS</div>
+</div>
+</div>
+<!-- Pulsante Alison -->
+<button class="alison-button" onclick="openChatbot()">ALISON RISPONDE</button>
+<!-- Icona AI -->
+<div class="ai-icon" onclick="openChatbot()">🤖</div>
+<!-- Logo Container -->
+<div class="logo-container">
+<div class="main-logo">
+<div class="logo-x">X</div>
+<div class="logo-nexsus">
+<span class="letter" style="animation-delay: 0.1s;">N</span>
+<span class="letter" style="animation-delay: 0.2s;">E</span>
+<span class="letter" style="animation-delay: 0.3s;">X</span>
+<span class="letter" style="animation-delay: 0.4s;">S</span>
+<span class="letter" style="animation-delay: 0.5s;">U</span>
+<span class="letter" style="animation-delay: 0.6s;">S</span>
+</div>
+</div>
+<div class="subtitle">next level - vision - strategy - future</div>
+<div class="evolution-future">EVOLUTION FUTURE</div>
+<div class="community-subtitle">community - academy - coaching - networking, collabora con nexsus</div>
+</div>
+<!-- Talk Record Section -->
+<div class="talk-record-section" id="talk-record">
+<h2 class="section-title">TALK RECORD NEXSUS</h2>
+<div style="text-align: center; margin-bottom: 30px;">
+<h3 style="color: #2aff40; font-size: 32px; margin-bottom: 15px;">LA VITA TI DEVE ANCORA UN SOGNO...la tua SCINTILLA si chiama</h3>
+<h3 style="color: #00c8ff; font-size: 48px; font-weight: 900; margin-bottom: 20px;">NEXSUS</h3>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+<div style="flex: 1;">
+<h3 style="color: #2aff40; font-size: 24px; margin-bottom: 15px;">EVOLUTION FUTURE</h3>
+<p style="color: #fff; font-size: 18px; line-height: 1.6;">
+                    La vita ti deve ancora un sogno… la tua SCINTILLA si chiama NEXSUS.
+                    Ci sono momenti in cui le persone smettono di credere nei propri sogni. 
+                    Non perché non valgano, ma perché il peso delle rinunce, delle delusioni, 
+                    dei tentativi falliti fa sembrare tutto troppo lontano.
+                </p>
+</div>
+<div style="flex: 1; text-align: right;">
+<p style="color: #00c8ff; font-size: 16px; line-height: 1.6;">
+                    Nexsus è quel soffio. È la scintilla che riapre il cassetto dove tenevi 
+                    i tuoi sogni più fragili. È la mano che ti solleva proprio quando credevi 
+                    che fosse troppo tardi per riprovarci. È la fiamma che illumina ciò che 
+                    il tempo non ha mai cancellato davvero: il tuo desiderio di essere, creare, realizzare.
+                </p>
+</div>
+</div>
+<div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+<button onclick="expandStory()" style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">
+                📖 CONTINUA A LEGGERE LA STORIA DI NEXSUS
+            </button>
+</div>
+</div>
+<!-- Librerie NEXSUS Section -->
+<div class="section" id="librerie">
+<h2 class="section-title">LIBRERIE NEXSUS</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+<div style="background: rgba(42, 255, 64, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #2aff40; text-align: center;">
+<h3 style="color: #2aff40; margin-bottom: 15px;">📸 FOTO NEXSUS</h3>
+<select style="width: 100%; padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff; margin-bottom: 10px;">
+<option>Seleziona Foto (0/200)</option>
+</select>
+<button style="background: var(--grad); color: #000; padding: 8px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">
+                    👁️ VISUALIZZA
+                </button>
+</div>
+<div style="background: rgba(0, 200, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #00c8ff; text-align: center;">
+<h3 style="color: #00c8ff; margin-bottom: 15px;">🎥 VIDEO NEXSUS</h3>
+<select style="width: 100%; padding: 10px; border: 1px solid #00c8ff; border-radius: 5px; background: rgba(0, 200, 255, 0.1); color: #fff; margin-bottom: 10px;">
+<option>Seleziona Video (0/100)</option>
+</select>
+<button style="background: var(--grad); color: #000; padding: 8px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">
+                    ▶️ RIPRODUCI
+                </button>
+</div>
+<div style="background: rgba(156, 39, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #9c27ff; text-align: center;">
+<h3 style="color: #9c27ff; margin-bottom: 15px;">📄 PDF NEXSUS</h3>
+<select style="width: 100%; padding: 10px; border: 1px solid #9c27ff; border-radius: 5px; background: rgba(156, 39, 255, 0.1); color: #fff; margin-bottom: 10px;">
+<option>Seleziona PDF (0/200)</option>
+</select>
+<button style="background: var(--grad); color: #000; padding: 8px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">
+                    📖 APRI
+                </button>
+</div>
+<div style="background: rgba(255, 123, 0, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #ff7b00; text-align: center;">
+<h3 style="color: #ff7b00; margin-bottom: 15px;">📝 TESTI NEXSUS</h3>
+<select style="width: 100%; padding: 10px; border: 1px solid #ff7b00; border-radius: 5px; background: rgba(255, 123, 0, 0.1); color: #fff; margin-bottom: 10px;">
+<option>Seleziona Testo (0/200)</option>
+</select>
+<button style="background: var(--grad); color: #000; padding: 8px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">
+                    📄 LEGGI
+                </button>
+</div>
+</div>
+</div>
+<!-- Alison AI Section -->
+<div class="section" id="alison-ai">
+<h2 class="section-title">ASSISTENTE ALISON AI</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #2aff40; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #2aff40; font-size: 14px; text-align: center;">
+                    📸 FOTO ALISON<br/>(Admin Upload)
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Alison AI è l'assistente virtuale di NEXSUS, progettata per supportarti in ogni fase del tuo percorso di crescita. 
+                    Con intelligenza artificiale avanzata, Alison può rispondere alle tue domande, guidarti attraverso i servizi NEXSUS 
+                    e offrirti supporto personalizzato 24/7.
+                </p>
+<button onclick="openChatbot()" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                    🤖 ALISON RISPONDE
+                </button>
+</div>
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #00c8ff; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #00c8ff; font-size: 14px; text-align: center;">
+                    🎥 VIDEO ALISON<br/>(Admin Upload)
+                </div>
+</div>
+</div>
+</div>
+<!-- Sezioni Principali -->
+<div class="section" id="contatti-social">
+<h2 class="section-title">CONTATTI E SOCIAL NETWORK</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+<button style="background: var(--grad); color: #000; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">📱 WhatsApp NEXSUS</button>
+<button style="background: var(--grad); color: #000; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">📧 Email NEXSUS</button>
+<button style="background: var(--grad); color: #000; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">📘 Facebook NEXSUS</button>
+<button style="background: var(--grad); color: #000; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">📷 Instagram NEXSUS</button>
+<button style="background: var(--grad); color: #000; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">🎵 TikTok NEXSUS</button>
+<button style="background: var(--grad); color: #000; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">🎥 YouTube NEXSUS</button>
+<button onclick="openWhatsApp()" style="background: var(--grad); color: #000; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">📞 CONTATTO SEGRETERIA NEXSUS</button>
+</div>
+</div>
+<div class="section" id="community">
+<h2 class="section-title">COMMUNITY NEXSUS</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #2aff40; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #2aff40; font-size: 14px; text-align: center;">
+                    📸 COMMUNITY<br/>PHOTO
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<h3 style="color: #2aff40; font-size: 24px; margin-bottom: 15px;">NEXSUS TEAM AIUTO DI GRUPPO</h3>
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Unisciti alla nostra community di innovatori e visionari del futuro. Condividi esperienze, 
+                    crea connessioni e cresci insieme ad altri professionisti.
+                </p>
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px; margin-bottom: 15px;" width="200"></iframe>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+<input placeholder="Nome" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input placeholder="Cognome" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input placeholder="Email" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="email"/>
+<input placeholder="Telefono" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="tel"/>
+</div>
+<button onclick="submitForm('community')" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 15px;">
+                    👥 ENTRA NELLA COMMUNITY
+                </button>
+</div>
+<div style="flex: 1;">
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px;" width="200"></iframe>
+</div>
+</div>
+</div>
+<div class="section" id="academy">
+<h2 class="section-title">ACADEMY NEXSUS</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #00c8ff; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #00c8ff; font-size: 14px; text-align: center;">
+                    📸 ACADEMY<br/>PHOTO
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<h3 style="color: #00c8ff; font-size: 24px; margin-bottom: 15px;">NEXSUS FORMATION DIGITAL ONLINE/OFFLINE</h3>
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Formazione professionale e sviluppo delle competenze digitali per il futuro.
+                </p>
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px; margin-bottom: 15px;" width="200"></iframe>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+<input placeholder="Nome" style="padding: 10px; border: 1px solid #00c8ff; border-radius: 5px; background: rgba(0, 200, 255, 0.1); color: #fff;" type="text"/>
+<input placeholder="Cognome" style="padding: 10px; border: 1px solid #00c8ff; border-radius: 5px; background: rgba(0, 200, 255, 0.1); color: #fff;" type="text"/>
+<input placeholder="Email" style="padding: 10px; border: 1px solid #00c8ff; border-radius: 5px; background: rgba(0, 200, 255, 0.1); color: #fff;" type="email"/>
+<input placeholder="Telefono" style="padding: 10px; border: 1px solid #00c8ff; border-radius: 5px; background: rgba(0, 200, 255, 0.1); color: #fff;" type="tel"/>
+</div>
+<button onclick="submitForm('academy')" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 15px;">
+                    📚 ISCRIVITI ALL'ACADEMY
+                </button>
+</div>
+<div style="flex: 1;">
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px;" width="200"></iframe>
+</div>
+</div>
+</div>
+<div class="section" id="coaching">
+<h2 class="section-title">COACHING NEXSUS</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #9c27ff; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #9c27ff; font-size: 14px; text-align: center;">
+                    📸 COACHING<br/>PHOTO
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<h3 style="color: #9c27ff; font-size: 24px; margin-bottom: 15px;">CAPIRE CHI SIAMO, SAPERE QUANTO VALGO</h3>
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Coaching personalizzato per raggiungere i tuoi obiettivi professionali.
+                </p>
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px; margin-bottom: 15px;" width="200"></iframe>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+<input placeholder="Nome" style="padding: 10px; border: 1px solid #9c27ff; border-radius: 5px; background: rgba(156, 39, 255, 0.1); color: #fff;" type="text"/>
+<input placeholder="Cognome" style="padding: 10px; border: 1px solid #9c27ff; border-radius: 5px; background: rgba(156, 39, 255, 0.1); color: #fff;" type="text"/>
+<input placeholder="Email" style="padding: 10px; border: 1px solid #9c27ff; border-radius: 5px; background: rgba(156, 39, 255, 0.1); color: #fff;" type="email"/>
+<input placeholder="Telefono" style="padding: 10px; border: 1px solid #9c27ff; border-radius: 5px; background: rgba(156, 39, 255, 0.1); color: #fff;" type="tel"/>
+</div>
+<button onclick="submitForm('coaching')" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 15px;">
+                    💼 RICHIEDI COACHING
+                </button>
+</div>
+<div style="flex: 1;">
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px;" width="200"></iframe>
+</div>
+</div>
+</div>
+<div class="section" id="networking">
+<h2 class="section-title">NETWORKING NEXSUS</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #ff7b00; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ff7b00; font-size: 14px; text-align: center;">
+                    📸 NETWORKING<br/>PHOTO
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<h3 style="color: #ff7b00; font-size: 24px; margin-bottom: 15px;">SUPERA IL TUO LIMITE, CONOSCI TE STESSO</h3>
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Costruisci connessioni professionali e opportunità di business.
+                </p>
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px; margin-bottom: 15px;" width="200"></iframe>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+<input placeholder="Nome" style="padding: 10px; border: 1px solid #ff7b00; border-radius: 5px; background: rgba(255, 123, 0, 0.1); color: #fff;" type="text"/>
+<input placeholder="Cognome" style="padding: 10px; border: 1px solid #ff7b00; border-radius: 5px; background: rgba(255, 123, 0, 0.1); color: #fff;" type="text"/>
+<input placeholder="Email" style="padding: 10px; border: 1px solid #ff7b00; border-radius: 5px; background: rgba(255, 123, 0, 0.1); color: #fff;" type="email"/>
+<input placeholder="Telefono" style="padding: 10px; border: 1px solid #ff7b00; border-radius: 5px; background: rgba(255, 123, 0, 0.1); color: #fff;" type="tel"/>
+</div>
+<button onclick="submitForm('networking')" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 15px;">
+                    🌐 INIZIA IL NETWORKING
+                </button>
+</div>
+<div style="flex: 1;">
+<iframe allowfullscreen="" frameborder="0" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border-radius: 10px;" width="200"></iframe>
+</div>
+</div>
+</div>
+<div class="section" id="collabora-alison">
+<h2 class="section-title">COLLABORA CON NEXSUS</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #2aff40; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #2aff40; font-size: 14px; text-align: center;">
+                    📸 COLLABORA<br/>(Admin Upload)
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Diventa parte del team NEXSUS e contribuisci al futuro dell'innovazione.
+                </p>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+<button onclick="openCandidaturaForm()" style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">
+                        📝 INVIA CANDIDATURA
+                    </button>
+<button onclick="sendPartnershipEmail()" style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">
+                        🤝 PROPONI PARTNERSHIP
+                    </button>
+</div>
+</div>
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #00c8ff; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #00c8ff; font-size: 14px; text-align: center;">
+                    🎥 VIDEO COLLABORA<br/>(Admin Upload)
+                </div>
+</div>
+</div>
+</div>
+<div class="section" id="feedback">
+<h2 class="section-title">NEXSUS FEEDBACK E NEW LETTER</h2>
+<p style="color: #fff; font-size: 18px; margin-bottom: 20px;">
+            Condividi il tuo feedback e iscriviti alla nostra newsletter.
+        </p>
+<div style="display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto;">
+<textarea id="feedbackText" maxlength="3000" placeholder="Scrivi il tuo feedback (max 500 parole)..." style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff; resize: vertical; min-height: 120px; font-family: Arial, sans-serif;"></textarea>
+<input id="newsletterEmail" placeholder="Inserisci la tua email per la newsletter" style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="email"/>
+<button onclick="submitFeedback()" style="background: var(--grad); color: #000; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                📤 INVIA FEEDBACK
+            </button>
+</div>
+</div>
+<div class="section" id="vinci-premiati">
+<h2 class="section-title">NEXSUS VINCI &amp; PREMIATI</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #ffd21a; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffd21a; font-size: 14px; text-align: center;">
+                    📸 VINCI<br/>PHOTO
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<h3 style="color: #2aff40; font-size: 32px; margin-bottom: 10px;">X NEXSUS TI PREMIA PERCHÉ TU VALI</h3>
+<h3 style="color: #00c8ff; font-size: 24px; margin-bottom: 20px;">DEVI SOLO CONOSCERTI CHI SEI</h3>
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Partecipa ai nostri concorsi e vinci premi esclusivi.
+                </p>
+<button onclick="openVinciPremiati()" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                    🏆 CLICCA, VAI HOME VINCI E PREMIATI
+                </button>
+</div>
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #ff7b00; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ff7b00; font-size: 14px; text-align: center;">
+                    📸 PREMIATI<br/>PHOTO
+                </div>
+</div>
+</div>
+</div>
+<div class="section" id="app">
+<h2 class="section-title">APP NEXSUS</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #2aff40; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #2aff40; font-size: 14px; text-align: center;">
+                    📸 APP<br/>PHOTO
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<p style="color: #fff; font-size: 18px; line-height: 1.6; margin-bottom: 20px;">
+                    Scarica l'app ufficiale NEXSUS per rimanere sempre connesso.
+                </p>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+<button style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">
+                        📱 DOWNLOAD iOS
+                    </button>
+<button style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">
+                        🤖 DOWNLOAD ANDROID
+                    </button>
+</div>
+</div>
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #00c8ff; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #00c8ff; font-size: 14px; text-align: center;">
+                    📸 APP<br/>PHOTO
+                </div>
+</div>
+</div>
+</div>
+<div class="section" id="abbonamenti">
+<h2 class="section-title">PROJECTS ABBONAMENTI E PAGAMENTI</h2>
+<p style="color: #fff; font-size: 18px; margin-bottom: 20px;">
+            Scegli il piano perfetto per le tue esigenze professionali.
+        </p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+<div style="background: rgba(42, 255, 64, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #2aff40; text-align: center;">
+<h3 style="color: #2aff40; margin-bottom: 10px;">BASIC</h3>
+<p style="color: #fff; font-size: 24px; font-weight: bold;">€69</p>
+<button onclick="addToCart('basic', 69)" style="background: var(--grad); color: #000; padding: 10px 20px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin: 10px 5px;">
+                    🛒 AGGIUNGI AL CARRELLO
+                </button>
+</div>
+<div style="background: rgba(0, 200, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #00c8ff; text-align: center;">
+<h3 style="color: #00c8ff; margin-bottom: 10px;">PREMIUM</h3>
+<p style="color: #fff; font-size: 24px; font-weight: bold;">€149</p>
+<button onclick="addToCart('premium', 149)" style="background: var(--grad); color: #000; padding: 10px 20px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin: 10px 5px;">
+                    🛒 AGGIUNGI AL CARRELLO
+                </button>
+</div>
+<div style="background: rgba(156, 39, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #9c27ff; text-align: center;">
+<h3 style="color: #9c27ff; margin-bottom: 10px;">ELITE</h3>
+<p style="color: #fff; font-size: 24px; font-weight: bold;">€199</p>
+<button onclick="addToCart('elite', 199)" style="background: var(--grad); color: #000; padding: 10px 20px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin: 10px 5px;">
+                    🛒 AGGIUNGI AL CARRELLO
+                </button>
+</div>
+<div style="background: rgba(255, 210, 26, 0.1); padding: 20px; border-radius: 15px; border: 1px solid #ffd21a; text-align: center;">
+<h3 style="color: #ffd21a; margin-bottom: 10px;">ELEGANCE</h3>
+<p style="color: #fff; font-size: 24px; font-weight: bold;">€249</p>
+<button onclick="addToCart('elegance', 249)" style="background: var(--grad); color: #000; padding: 10px 20px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin: 10px 5px;">
+                    🛒 AGGIUNGI AL CARRELLO
+                </button>
+</div>
+</div>
+<div style="margin-top: 30px; text-align: center;">
+<button onclick="viewCart()" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; margin: 10px;">
+                🛒 VISUALIZZA CARRELLO
+            </button>
+<button onclick="openPaymentSystem('card')" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; margin: 10px;">
+                💳 ABBONATO SICURO CON CARD
+            </button>
+</div>
+</div>
+<div class="section" id="sezioni-territoriali">
+<h2 class="section-title">SEZIONI TERRITORIALI</h2>
+<p style="color: #fff; font-size: 18px; margin-bottom: 20px;">
+            Richiedi l'assegnazione di una sezione territoriale NEXSUS nella tua regione.
+        </p>
+<div style="display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 0 auto;">
+<input id="territNome" placeholder="Nome" style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input id="territCognome" placeholder="Cognome" style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input id="territEmail" placeholder="Email" style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="email"/>
+<input id="territTelefono" placeholder="Telefono" style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="tel"/>
+<input id="territProvincia" placeholder="Provincia" style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input id="territRegione" placeholder="Regione" style="padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<button onclick="submitTerritorialRequest()" style="background: var(--grad); color: #000; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                🌍 RICHIESTA DI SEZIONE TERRITORIALE
+            </button>
+</div>
+</div>
+<div class="section" id="admin-panel">
+<h2 class="section-title">PANEL ADMIN NEXSUS</h2>
+<div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #2aff40; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #2aff40; font-size: 14px; text-align: center;">
+                    📸 ADMIN<br/>(Admin Upload)
+                </div>
+</div>
+<div style="flex: 2; text-align: center;">
+<p style="color: #fff; font-size: 18px; margin-bottom: 20px;">
+                    Accesso riservato agli amministratori del sistema NEXSUS.
+                </p>
+<button onclick="openAdminLogin()" style="background: var(--grad); color: #000; padding: 15px 30px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                    🔐 ACCESSO ADMIN
+                </button>
+</div>
+<div style="flex: 1;">
+<div style="width: 200px; height: 150px; border: 2px dashed #00c8ff; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #00c8ff; font-size: 14px; text-align: center;">
+                    🎥 VIDEO ADMIN<br/>(Admin Upload)
+                </div>
+</div>
+</div>
+</div>
+<!-- Chatbot Overlay -->
+<div class="chatbot-overlay" id="chatbotOverlay">
+<div class="chatbot-container">
+<div class="chatbot-header">
+<h3>🤖 ALISON AI - Assistente NEXSUS</h3>
+<p style="color: #fff; font-size: 14px;">Ciao! Sono Alison, la tua assistente virtuale. Come posso aiutarti oggi?</p>
+</div>
+<div class="chat-messages" id="chatMessages">
+<div style="color: #2aff40; margin-bottom: 10px;">
+<strong>Alison AI:</strong> Benvenuto! Sono qui per rispondere alle tue domande su NEXSUS. Cosa vorresti sapere?
+                </div>
+</div>
+<div class="chat-input">
+<input id="chatInput" placeholder="Scrivi la tua domanda..." type="text"/>
+<button onclick="sendMessage()">Invia</button>
+</div>
+<button class="close-chatbot" onclick="closeChatbot()">❌ Chiudi Chat</button>
+</div>
+</div>
+<!-- Payment System Overlay -->
+<div class="chatbot-overlay" id="paymentOverlay" style="display: none;">
+<div class="chatbot-container">
+<div class="chatbot-header">
+<h3>💳 SISTEMA PAGAMENTO NEXSUS</h3>
+<p style="color: #fff; font-size: 14px;">Inserisci il tuo numero WhatsApp per ricevere il link di pagamento SumUp</p>
+</div>
+<div style="padding: 20px;">
+<input id="whatsappNumber" placeholder="Inserisci numero WhatsApp (es: +393471234567)" style="width: 100%; padding: 15px; border: 1px solid #2aff40; border-radius: 10px; background: rgba(42, 255, 64, 0.1); color: #fff; font-size: 16px; margin-bottom: 20px;" type="tel">
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+<button onclick="sendPaymentLink()" style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 14px;">📲 INVIA LINK PAGAMENTO</button>
+<button onclick="closePaymentSystem()" style="background: #ff4444; color: #fff; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 14px;">❌ CHIUDI</button>
+</div>
+<div style="margin-top: 20px; padding: 15px; background: rgba(42, 255, 64, 0.1); border-radius: 10px;">
+<p style="color: #2aff40; font-size: 12px; margin: 0;">🔒 Pagamento sicuro con SumUp<br/>💳 Accettiamo tutte le carte di credito/debito<br/>📱 Link inviato automaticamente su WhatsApp<br/>🔔 Notifica automatica all'admin: 3474429091</p>
+</div>
+</input></div>
+</div>
+</div>
+<!-- Candidatura Form Overlay -->
+<div class="chatbot-overlay" id="candidaturaOverlay" style="display: none;">
+<div class="chatbot-container">
+<div class="chatbot-header">
+<h3>📝 CANDIDATURA NEXSUS</h3>
+<p style="color: #fff; font-size: 14px;">Compila il form per inviare la tua candidatura</p>
+</div>
+<div style="padding: 20px;">
+<div style="display: flex; flex-direction: column; gap: 15px;">
+<input id="candNome" placeholder="Nome" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input id="candCognome" placeholder="Cognome" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input id="candEmail" placeholder="Email" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="email"/>
+<input id="candTelefono" placeholder="Telefono" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="tel"/>
+<input id="candCitta" placeholder="Città" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input id="candProvincia" placeholder="Provincia" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+<input id="candRegione" placeholder="Regione" style="padding: 10px; border: 1px solid #2aff40; border-radius: 5px; background: rgba(42, 255, 64, 0.1); color: #fff;" type="text"/>
+</div>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+<button onclick="submitCandidatura()" style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">📤 INVIA</button>
+<button onclick="closeCandidaturaForm()" style="background: #ff4444; color: #fff; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">❌ CHIUDI</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Cart Overlay -->
+<div class="chatbot-overlay" id="cartOverlay" style="display: none;">
+<div class="chatbot-container">
+<div class="chatbot-header">
+<h3>🛒 CARRELLO NEXSUS</h3>
+<p style="color: #fff; font-size: 14px;">I tuoi articoli selezionati</p>
+</div>
+<div style="padding: 20px;">
+<div id="cartItems" style="margin-bottom: 20px;">
+<!-- Cart items will be populated here -->
+</div>
+<div style="border-top: 1px solid #2aff40; padding-top: 15px; margin-top: 15px;">
+<p id="cartTotal" style="color: #2aff40; font-size: 18px; font-weight: bold; text-align: center;">Totale: €0</p>
+</div>
+<div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+<button onclick="proceedToPayment()" style="background: var(--grad); color: #000; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">💳 PROCEDI AL PAGAMENTO</button>
+<button onclick="clearCart()" style="background: #ff4444; color: #fff; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">🗑️ SVUOTA CARRELLO</button>
+<button onclick="closeCart()" style="background: #666; color: #fff; padding: 12px 25px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;">❌ CHIUDI</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+        // Matrix Background Animation
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789';
+        const fontSize = 18;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        const colors = ["#32ff32", "#00ffff"];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 80);
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Shopping Cart
+        let cart = [];
+
+        function addToCart(plan, price) {
+            cart.push({plan: plan, price: price});
+            alert(`${plan.toUpperCase()} aggiunto al carrello!`);
+        }
+
+        function viewCart() {
+            document.getElementById('cartOverlay').style.display = 'flex';
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="color: #fff; text-align: center;">Il carrello è vuoto</p>';
+                cartTotal.textContent = 'Totale: €0';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #2aff40; border-radius: 5px; margin-bottom: 10px;">
+                        <span style="color: #fff;">${item.plan.toUpperCase()}</span>
+                        <span style="color: #2aff40;">€${item.price}</span>
+                        <button onclick="removeFromCart(${index})" style="background: #ff4444; color: #fff; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;">Rimuovi</button>
+                    </div>
+                `;
+                total += item.price;
+            });
+            
+            cartItems.innerHTML = html;
+            cartTotal.textContent = `Totale: €${total}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartDisplay();
+        }
+
+        function closeCart() {
+            document.getElementById('cartOverlay').style.display = 'none';
+        }
+
+        function proceedToPayment() {
+            if (cart.length === 0) {
+                alert('Il carrello è vuoto!');
+                return;
+            }
+            closeCart();
+            openPaymentSystem('cart');
+        }
+
+        // Menu Functions
+        let menuTimeout;
+        function toggleMenu() {
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.toggle('active');
+            
+            if (dropdown.classList.contains('active')) {
+                clearTimeout(menuTimeout);
+                menuTimeout = setTimeout(() => {
+                    dropdown.classList.remove('active');
+                }, 20000);
+            } else {
+                clearTimeout(menuTimeout);
+            }
+        }
+
+        function showSection(sectionId) {
+            // Nascondi tutte le sezioni
+            const sections = document.querySelectorAll('.section, .talk-record-section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Nascondi il logo se non è home
+            const logoContainer = document.querySelector('.logo-container');
+            if (sectionId === 'home') {
+                logoContainer.style.display = 'flex';
+                sections.forEach(section => {
+                    section.classList.remove('hidden');
+                });
+            } else {
+                logoContainer.style.display = 'none';
+                // Mostra solo la sezione selezionata
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
+                }
+            }
+
+            // Chiudi il menu
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.remove('active');
+            clearTimeout(menuTimeout);
+        }
+
+        // Chatbot Functions
+        function openChatbot() {
+            document.getElementById('chatbotOverlay').style.display = 'flex';
+        }
+
+        function closeChatbot() {
+            document.getElementById('chatbotOverlay').style.display = 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const messages = document.getElementById('chatMessages');
+            const userMessage = input.value.trim();
+
+            if (userMessage) {
+                // Aggiungi messaggio utente
+                messages.innerHTML += `<div style="color: #fff; margin-bottom: 10px;"><strong>Tu:</strong> ${userMessage}</div>`;
+                
+                // Simula risposta di Alison
+                setTimeout(() => {
+                    const responses = [
+                        "Grazie per la tua domanda! NEXSUS è una piattaforma innovativa per lo sviluppo professionale.",
+                        "Posso aiutarti con informazioni su Academy, Community, Coaching e Networking.",
+                        "Per maggiori dettagli sui nostri servizi, ti consiglio di esplorare le sezioni del menu.",
+                        "NEXSUS offre soluzioni complete per la crescita personale e professionale.",
+                        "Hai bisogno di assistenza specifica? Sono qui per aiutarti!",
+                        "Le sezioni territoriali NEXSUS ti permettono di diventare rappresentante nella tua zona.",
+                        "I nostri abbonamenti includono accesso completo a tutti i servizi NEXSUS.",
+                        "La community NEXSUS è un network di professionisti che si supportano a vicenda."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    messages.innerHTML += `<div style="color: #2aff40; margin-bottom: 10px;"><strong>Alison AI:</strong> ${randomResponse}</div>`;
+                    messages.scrollTop = messages.scrollHeight;
+                }, 1000);
+
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        // Payment System Functions
+        function openPaymentSystem(plan) {
+            document.getElementById('paymentOverlay').style.display = 'flex';
+        }
+
+        function closePaymentSystem() {
+            document.getElementById('paymentOverlay').style.display = 'none';
+        }
+
+        function sendPaymentLink() {
+            const whatsapp = document.getElementById('whatsappNumber').value;
+            if (whatsapp) {
+                alert(`Link di pagamento inviato a ${whatsapp}. Riceverai il messaggio WhatsApp a breve!`);
+                closePaymentSystem();
+                clearCart(); // Clear cart after payment
+            } else {
+                alert('Inserisci un numero WhatsApp valido');
+            }
+        }
+
+        // Form Functions
+        function submitForm(section) {
+            alert(`Registrazione ${section} inviata con successo! Ti contatteremo presto.`);
+        }
+
+        function submitFeedback() {
+            const feedback = document.getElementById('feedbackText').value;
+            const email = document.getElementById('newsletterEmail').value;
+            
+            if (feedback || email) {
+                alert('Feedback inviato con successo! Grazie per il tuo contributo.');
+                document.getElementById('feedbackText').value = '';
+                document.getElementById('newsletterEmail').value = '';
+            } else {
+                alert('Inserisci almeno un feedback o la tua email');
+            }
+        }
+
+        // Territorial Request Function
+        function submitTerritorialRequest() {
+            const nome = document.getElementById('territNome').value;
+            const cognome = document.getElementById('territCognome').value;
+            const email = document.getElementById('territEmail').value;
+            const telefono = document.getElementById('territTelefono').value;
+            const provincia = document.getElementById('territProvincia').value;
+            const regione = document.getElementById('territRegione').value;
+            
+            if (nome && cognome && email && provincia && regione) {
+                // Simulate email sending
+                const subject = encodeURIComponent('Richiesta Sezione Territoriale NEXSUS');
+                const body = encodeURIComponent(`Nome: ${nome}\nCognome: ${cognome}\nEmail: ${email}\nTelefono: ${telefono}\nProvincia: ${provincia}\nRegione: ${regione}`);
+                
+                alert('Richiesta inviata con successo! Riceverai una risposta entro 48 ore.');
+                
+                // Reset form
+                document.getElementById('territNome').value = '';
+                document.getElementById('territCognome').value = '';
+                document.getElementById('territEmail').value = '';
+                document.getElementById('territTelefono').value = '';
+                document.getElementById('territProvincia').value = '';
+                document.getElementById('territRegione').value = '';
+            } else {
+                alert('Compila tutti i campi obbligatori');
+            }
+        }
+
+        // Candidatura Functions
+        function openCandidaturaForm() {
+            document.getElementById('candidaturaOverlay').style.display = 'flex';
+        }
+
+        function closeCandidaturaForm() {
+            document.getElementById('candidaturaOverlay').style.display = 'none';
+        }
+
+        function submitCandidatura() {
+            const nome = document.getElementById('candNome').value;
+            const cognome = document.getElementById('candCognome').value;
+            const email = document.getElementById('candEmail').value;
+            
+            if (nome && cognome && email) {
+                alert('Candidatura inviata con successo! Ti contatteremo presto.');
+                closeCandidaturaForm();
+                // Reset form
+                document.getElementById('candNome').value = '';
+                document.getElementById('candCognome').value = '';
+                document.getElementById('candEmail').value = '';
+                document.getElementById('candTelefono').value = '';
+                document.getElementById('candCitta').value = '';
+                document.getElementById('candProvincia').value = '';
+                document.getElementById('candRegione').value = '';
+            } else {
+                alert('Compila almeno Nome, Cognome ed Email');
+            }
+        }
+
+        // Other Functions
+        function sendPartnershipEmail() {
+            const subject = encodeURIComponent('Proposta Partnership NEXSUS');
+            const body = encodeURIComponent('Salve,\n\nSono interessato a proporre una partnership con NEXSUS.\n\nCordiali saluti');
+            window.open(`mailto:evolutionacademy2026@virgilio.it?subject=${subject}&body=${body}`);
+        }
+
+        function openWhatsApp() {
+            window.open('https://wa.me/393474429091', '_blank');
+        }
+
+        function openVinciPremiati() {
+            alert('Collegamento a pagina esterna Vinci e Premiati - Link da configurare nel Panel Admin');
+        }
+
+        function expandStory() {
+            alert('Storia completa di NEXSUS - Contenuto da configurare nel Panel Admin');
+        }
+
+        // Admin Login Function
+        function openAdminLogin() {
+            const password = prompt("Inserisci la password amministratore:");
+            if (password === "EVOLUTIONnexsusTEAM2026@") {
+                const verification = prompt("Il nome della tua assistente virtuale:");
+                if (verification === "ALISON AI") {
+                    alert("Admin autorizzato: Giuliano Caratelli");
+                    // Qui si aprirebbe il pannello admin completo
+                    openAdminPanel();
+                } else {
+                    alert("Verifica fallita!");
+                }
+            } else {
+                alert("Password errata!");
+            }
+        }
+
+        function openAdminPanel() {
+            alert("Pannello Admin NEXSUS - Accesso consentito!\n\nFunzionalità disponibili:\n- Gestione Utenti\n- NEXSUS Territoriali\n- Gestione Pagamenti\n- Gestione Contatti\n- Librerie NEXSUS\n- Vinci e Premiati");
+        }
+
+        // Enter key support for chat
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
